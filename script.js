@@ -75,4 +75,5 @@ function reset() {
             document.getElementById(x).value = " ";
         }
     }
+  document.getElementById("verdict").textContent = "who will win?";
 }
