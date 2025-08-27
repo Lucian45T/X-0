@@ -1,21 +1,39 @@
-let grid = [
-  [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9] 
+let grid = [    
+    [1, 2, 3],
+    [4, 5, 6],    
+    [7, 8, 9]
 ];
-let y = 0, x = 0, verify = 0;
+
+let y = 0, x = 0, verify = 0, saved = 0, onePush = 0;
+
+function generateGrid() {
+    if (onePush == 0) {
+        for (let i = 0; i < 3; ++i) {
+            for (let j = 0; j < 3; ++j) {
+                ++saved;
+                document.getElementById("container").innerHTML += `
+                <input type="text" id="${saved}" style="width: 50px; height: 50px;
+                 background-color: rgba(0, 255, 68, 0.1)">`;
+            }
+            document.getElementById("container").innerHTML += `<br>`;
+        }
+        ++onePush;
+    }
+}
 
 function gamerX() { 
+    verify = 0; 
     y = 0;
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             ++y;
-            console.log(y);
+            
             if (document.getElementById(y).value == "x") {
-                grid[i][j] = "x";   
+                grid[i][j] = "x";    
            }
         }
     }
+    
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             if (i == 1 && grid[i][j] == "x" && grid[i - 1][j] == "x" && grid[i + 1][j] == "x") {
@@ -29,15 +47,16 @@ function gamerX() {
             }
             if (j == 1 && i == 1 && grid[i][j] == "x" && grid[i - 1][j + 1] == "x" && grid[i + 1][j - 1] == "x") {
             ++verify;
-            }
-        }
-    }    
-    if(verify > 0) {
+            }  
+        }  
+    }      
+    if(verify > 0) {  
         document.getElementById("verdict").textContent = "gamer with X win";
-    }    
+    }   
 }
 
 function gamer0() {
+    verify = 0;
     y = 0;
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
@@ -47,6 +66,7 @@ function gamer0() {
            }
         }
     }
+
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             if (i == 1 && grid[i][j] == "0" && grid[i - 1][j] == "0" && grid[i + 1][j] == "0") {
@@ -65,15 +85,19 @@ function gamer0() {
     }    
     if(verify > 0) {
         document.getElementById("verdict").textContent = "gamer with 0 win";
-    }    
+    }   
 }
+
 function reset() {
-    x = 0;
+    x = 0; 
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             ++x;
-            document.getElementById(x).value = " ";
+            document.getElementById(x).value = "";
+           grid[i][j] = "";
         }
     }
-  document.getElementById("verdict").textContent = "who will win?";
+    document.getElementById("verdict").textContent = "who will win?";
+    verify = 0;
+   
 }
