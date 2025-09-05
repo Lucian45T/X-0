@@ -4,7 +4,7 @@ let grid = [
     [7, 8, 9]
 ];
 
-let y = 0, x = 0, verify = 0, saved = 0, onePush = 0;
+let y = 0, x = 0, verify = 0, saved = 0, onePush = 0, check = 0;
 
 function generateGrid() {
     if (onePush == 0) {
@@ -21,35 +21,35 @@ function generateGrid() {
     }
 }
 
+let gridDirections = [
+    [[0, 2], [1, 2], [2, 2]],
+    [[0, 0], [1, 0], [2, 0]],
+    [[0, 0], [0, 1], [0, 2]],
+    [[2, 0], [2, 1], [2, 2]],
+    [[0, 1], [1, 1], [2, 1]],
+    [[1, 0], [1, 1], [1, 2]],
+    [[0, 0], [1, 1], [2, 2]],
+    [[0, 2], [1, 1], [2, 0]]
+];
+          
 function gamerX() { 
     verify = 0; 
     y = 0;
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             ++y;
-            
             if (document.getElementById(y).value == "x") {
                 grid[i][j] = "x";    
-           }
+            }
+        }
+    }
+
+    for (let gridDirection of gridDirections) {
+        if (gridDirection.every(([i, j]) =>grid[i][j] === "x")) {
+            verify++; 
         }
     }
     
-    for (let i = 0; i < 3; ++i) {
-        for (let j = 0; j < 3; ++j) {
-            if (i == 1 && grid[i][j] == "x" && grid[i - 1][j] == "x" && grid[i + 1][j] == "x") {
-            ++verify;
-            }
-            if (j == 1 && grid[i][j] == "x" && grid[i][j - 1] == "x" && grid[i][j + 1] == "x") {
-            ++verify;
-            }
-            if (j == 1 && i == 1 && grid[i][j] == "x" && grid[i - 1][j - 1] == "x" && grid[i + 1][j + 1] == "x") {
-            ++verify;
-            }
-            if (j == 1 && i == 1 && grid[i][j] == "x" && grid[i - 1][j + 1] == "x" && grid[i + 1][j - 1] == "x") {
-            ++verify;
-            }  
-        }  
-    }      
     if(verify > 0) {  
         document.getElementById("verdict").textContent = "gamer with X win";
     }   
@@ -63,26 +63,15 @@ function gamer0() {
             ++y;
             if (document.getElementById(y).value == "0") {
                 grid[i][j] = "0";   
-           }
+            }
         }
     }
-
-    for (let i = 0; i < 3; ++i) {
-        for (let j = 0; j < 3; ++j) {
-            if (i == 1 && grid[i][j] == "0" && grid[i - 1][j] == "0" && grid[i + 1][j] == "0") {
-            ++verify;
-            }
-            if (j == 1 && grid[i][j] == "0" && grid[i][j - 1] == "0" && grid[i][j + 1] == "0") {
-            ++verify;
-            }
-            if (j == 1 && i == 1 && grid[i][j] == "0" && grid[i - 1][j - 1] == "0" && grid[i + 1][j + 1] == "0") {
-            ++verify;
-            }
-            if (j == 1 && i == 1 && grid[i][j] == "0" && grid[i - 1][j + 1] == "0" && grid[i + 1][j - 1] == "0") {
-            ++verify;
-            }
+     for (let gridDirection of gridDirections) {
+        if (gridDirection.every(([i, j]) =>grid[i][j] === "0")) {
+            verify++; 
         }
-    }    
+    }
+    
     if(verify > 0) {
         document.getElementById("verdict").textContent = "gamer with 0 win";
     }   
@@ -94,10 +83,11 @@ function reset() {
         for (let j = 0; j < 3; ++j) {
             ++x;
             document.getElementById(x).value = "";
-           grid[i][j] = "";
+            grid[i][j] = "";
         }
     }
     document.getElementById("verdict").textContent = "who will win?";
     verify = 0;
    
 }
+            
