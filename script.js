@@ -1,10 +1,10 @@
-let grid = [    
-    [1, 2, 3],
-    [4, 5, 6],    
-    [7, 8, 9]
+let grid = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
 ];
 
-let y = 0, x = 0, verify = 0, verify2 = 0, saved = 0, onePush = 0, check = 0;
+let y = 0, x = 0, verify = 0, saved = 0, onePush = 0, check = 0;
 
 function generateGrid() {
     if (onePush == 0) {
@@ -31,51 +31,48 @@ let gridDirections = [
     [[0, 0], [1, 1], [2, 2]],
     [[0, 2], [1, 1], [2, 0]]
 ];
-          
-function gamer() {  
-    y = 0;
+ let val;
+function Push(val) {
+    let index = 1;   
+     
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
-            ++y;
-            if (document.getElementById(y).value == "x") {
-                grid[i][j] = "x";    
+            if (document.getElementById(index).value != "") {
+                val = document.getElementById(index).value;
+            grid[i][j] = val;
+          
             }
-            if (document.getElementById(y).value == "0") {
-                grid[i][j] = "0";    
-            }
+            ++index;
+            
+        }            
+    }
+
+    verify = 0;
+    for (let gridDirection of gridDirections) {
+        if (gridDirection.every(([i, j]) => grid[i][j] === val)) {
+            verify++;
         }
     }
 
-    for (let gridDirection of gridDirections) {
-        if (gridDirection.every(([i, j]) =>grid[i][j] === "x")) {
-            verify++; 
-        }
-        if (gridDirection.every(([i, j]) =>grid[i][j] === "0")) {
-            verify2++; 
-        }
+    if (verify > 0) {
+        document.getElementById("verdict").textContent = `gamer with ${val} win`;
     }
-     
-    
-    if(verify > 0) {  
-        document.getElementById("verdict").textContent = "gamer with X win";
-    } 
-    if(verify2 > 0) {
-        document.getElementById("verdict").textContent = "gamer with 0 win";
-    }     
 }
 
+function gamer() {
+    Push("X");
+    Push("0");
+}
 
 function reset() {
     x = 0; 
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
             ++x;
-            document.getElementById(x).value = "";
+            document.getElementById(x).value = "";     
             grid[i][j] = "";
         }
     }
     document.getElementById("verdict").textContent = "who will win?";
     verify = 0;
-   
-}
-            
+}    
