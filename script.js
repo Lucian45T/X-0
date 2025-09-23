@@ -4,7 +4,7 @@ let grid = [
   ["", "", ""]
 ];
 
-let y = 0, x = 0, verify = 0, saved = 0, onePush = 0, check = 0;
+let x = 0, verify = 0, saved = 0, onePush = 0;
 
 function generateGrid() {
     if (onePush == 0) {
@@ -31,13 +31,14 @@ let gridDirections = [
     [[0, 0], [1, 1], [2, 2]],
     [[0, 2], [1, 1], [2, 0]]
 ];
- let val;
-function Push(val) {
+let val;
+
+function gamer(val) {
     let index = 1;   
-     
+
     for (let i = 0; i < 3; ++i) {
         for (let j = 0; j < 3; ++j) {
-            if (document.getElementById(index).value != "") {
+            if (document.getElementById(index).value == "x" || document.getElementById(index).value == "0") {
                 val = document.getElementById(index).value;
             grid[i][j] = val;
           
@@ -46,24 +47,24 @@ function Push(val) {
             
         }            
     }
-
+    let nr = 0;
     verify = 0;
     for (let gridDirection of gridDirections) {
         if (gridDirection.every(([i, j]) => grid[i][j] === val)) {
-            verify++;
+           ++verify;
+        console.log(nr);
+        ++nr;
         }
     }
 
     if (verify > 0) {
-        document.getElementById("verdict").textContent = `gamer with ${val} win`;
+        document.getElementById("verdict").textContent = `gamer ${val} wins`;
+        return true;
     }
-}
-
-function gamer() {
-    Push("X");
-    Push("0");
-}
-
+    return false;
+  }
+ gamer(0);
+ gamer(x);
 function reset() {
     x = 0; 
     for (let i = 0; i < 3; ++i) {
@@ -75,4 +76,6 @@ function reset() {
     }
     document.getElementById("verdict").textContent = "who will win?";
     verify = 0;
+    gamer("0") = false;
+    gamer("x") = false;
 }    
